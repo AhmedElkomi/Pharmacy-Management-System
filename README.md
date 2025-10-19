@@ -22,6 +22,7 @@ Table of Contents
 - [License & Contact](#license--contact)
 
 Why this project
+
 Pharmacies need reliable systems to manage inventory, process prescriptions, ensure patient safety, and track sales. This project concentrates on the database and core logic enabling:
 - Accurate inventory tracking and reorder automation
 - Prescription history and customer profiles
@@ -29,6 +30,7 @@ Pharmacies need reliable systems to manage inventory, process prescriptions, ens
 - Traceable sales and order records for auditing and reporting
 
 Key Features
+
 - Centralized database for medications, customers, prescriptions, sales, and orders
 - Inventory status, low-stock alerts, and reorder suggestions
 - Patient profiles and prescription history
@@ -37,6 +39,7 @@ Key Features
 - Designed to integrate with a backend API or UI
 
 Architecture & Data Model
+
 This project is focused on the database layer. Typical entities include:
 - Medication (id, name, brand, dosage_form, strength, manufacturer, unit_price, current_stock, reorder_level)
 - Customer/Patient (id, full_name, dob, phone, email, address, notes)
@@ -48,6 +51,7 @@ This project is focused on the database layer. Typical entities include:
 - InteractionRules / DrugInteractions table to record known problematic combinations
 
 Simple ER (illustrative)
+
 [Customer] 1---* [Prescription] *---* [Medication]
 [Sale] 1---* [SaleItem] *---1 [Medication]
 
@@ -61,23 +65,28 @@ Example ER (ASCII)
           \--* [Sale] 1 --- * [SaleItem] --/
 
 Database Constraints & Safety
+
 - Use transactions for sales and inventory updates to avoid race conditions.
 - Enforce foreign keys and sensible ON DELETE behavior to keep history intact.
 - Add indexes on frequently searched columns (medication name, customer phone).
 
 Quick Start
+
 (Adjust commands for your environment — this is a template to get started)
 
 Prerequisites
+
 - PostgreSQL or MySQL (or any SQL RDBMS)
 - Optional: Node.js / Python if you plan to run a backend service
 - git
 
 Clone
+
 git clone https://github.com/AhmedElkomi/Pharmacy-Management-System.git
 cd Pharmacy-Management-System
 
 Database setup (example using psql / PostgreSQL)
+
 - Create database:
   createdb pharmacy_db
 - Run migration / schema SQL (replace with actual SQL file names in repo):
@@ -86,11 +95,13 @@ Database setup (example using psql / PostgreSQL)
   psql -d pharmacy_db -f sql/seeds.sql
 
 Common commands
+
 - Run migrations: ./scripts/migrate.sh (or use your migration tool: Flyway / Liquibase / knex / alembic)
 - Start backend (example): npm install && npm start
 - Run tests: npm test (or pytest)
 
 Typical Workflows & Examples
+
 - Record a sale: create Sale + SaleItems, decrement Medication.current_stock inside a transaction.
 - Reorder flow: find medications where current_stock <= reorder_level; create PurchaseOrder.
 - Check drug interactions: given a customer's current medications + new prescription, search DrugInteractions table and flag matches.
